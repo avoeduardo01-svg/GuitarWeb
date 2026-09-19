@@ -1,1 +1,1735 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>GuitarWeb 🎸</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #080a0f;
+    color: white;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: #11151d;
+    border-bottom: 1px solid #272e3a;
+    padding: 15px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+nav button {
+    background: #1c222d;
+    color: white;
+    border: 1px solid #343c4b;
+    padding: 9px 14px;
+    border-radius: 10px;
+}
+
+nav button:hover {
+    background: #292f3b;
+}
+
+main {
+    max-width: 1150px;
+    margin: auto;
+    padding: 30px 18px;
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: block;
+}
+
+.hero {
+    background: linear-gradient(135deg, #151b25, #0e1118);
+    border: 1px solid #2a3240;
+    border-radius: 22px;
+    padding: 35px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(35px, 7vw, 65px);
+    margin: 0 0 10px;
+}
+
+.card {
+    background: #11161f;
+    border: 1px solid #272f3b;
+    border-radius: 18px;
+    padding: 20px;
+    margin-bottom: 18px;
+}
+
+.muted {
+    color: #9da7b5;
+}
+
+.row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.control {
+    background: #1c222d;
+    color: white;
+    border: 1px solid #343c4b;
+    padding: 10px 14px;
+    border-radius: 10px;
+}
+
+.control:hover {
+    background: #292f3b;
+}
+
+input,
+select,
+textarea {
+    background: #0c1016;
+    color: white;
+    border: 1px solid #343c4b;
+    border-radius: 9px;
+    padding: 10px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* GUITARRA */
+
+.guitar {
+    background: #171c25;
+    border: 1px solid #303846;
+    border-radius: 22px;
+    padding: 25px;
+    overflow: hidden;
+}
+
+.neck {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 25px;
+}
+
+.string {
+    position: relative;
+    height: 16px;
+    background: linear-gradient(
+        to bottom,
+        #777,
+        #eeeeee,
+        #777
+    );
+    border-radius: 50%;
+}
+
+.string-label {
+    position: absolute;
+    right: 0;
+    top: -9px;
+    width: 48px;
+    height: 34px;
+    border: 0;
+    border-radius: 9px;
+    background: #282f3b;
+    color: white;
+    font-weight: bold;
+}
+
+.string-label:hover {
+    background: #444c59;
+}
+
+.keys {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 9px;
+}
+
+.key {
+    background: #202733;
+    border: 1px solid #394250;
+    border-radius: 12px;
+    padding: 15px 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: .08s;
+}
+
+.key.active {
+    transform: translateY(2px);
+    background: white;
+    color: #090b10;
+}
+
+.key small {
+    font-weight: normal;
+    opacity: .6;
+}
+
+/* MUSICAS */
+
+.song {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 0;
+    border-top: 1px solid #272e3a;
+}
+
+.song:first-child {
+    border-top: 0;
+}
+
+.song-name {
+    font-weight: bold;
+    font-size: 17px;
+}
+
+.progress {
+    width: 100%;
+    height: 9px;
+    background: #252c37;
+    border-radius: 20px;
+    overflow: hidden;
+    margin: 15px 0;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: white;
+    transition: width .1s linear;
+}
+
+/* TUTORIAIS */
+
+.tutorial-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.tutorial {
+    background: #171d27;
+    border: 1px solid #2b3340;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.sequence {
+    margin-top: 12px;
+    background: #090c11;
+    padding: 12px;
+    border-radius: 10px;
+    word-break: break-word;
+    font-family: monospace;
+}
+
+/* KEYBINDS */
+
+.keybind-list {
+    display: grid;
+    gap: 10px;
+}
+
+.keybind-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #171d27;
+    padding: 12px;
+    border-radius: 10px;
+}
+
+/* MOBILE */
+
+.mobile-buttons {
+    display: none;
+}
+
+/* RESPONSIVO */
+
+@media(max-width:700px) {
+
+    header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    nav {
+        width: 100%;
+    }
+
+    nav button {
+        flex: 1;
+    }
+
+    .hero {
+        padding: 25px;
+    }
+
+    .tutorial-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .keys {
+        display: none;
+    }
+
+    .mobile-buttons {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .mobile-buttons button {
+        min-height: 60px;
+        background: #222936;
+        color: white;
+        border: 1px solid #3a4351;
+        border-radius: 14px;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .mobile-buttons button:active {
+        background: white;
+        color: black;
+    }
+
+    .song {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        🎸 GuitarWeb
+    </div>
+
+    <nav>
+        <button onclick="showPage('play')">🎸 Tocar</button>
+        <button onclick="showPage('tutorials')">📖 Tutoriais</button>
+        <button onclick="showPage('create')">📤 Criar</button>
+        <button onclick="showPage('settings')">⚙️ Definições</button>
+        <button onclick="showPage('publish')">🌐 Publicar</button>
+    </nav>
+
+</header>
+
+
+<main>
+
+<!-- ================= TOCAR ================= -->
+
+<section id="play" class="page active">
+
+    <div class="hero">
+
+        <div class="muted">
+            GUITARRA VIRTUAL
+        </div>
+
+        <h1>
+            Toca pelo teclado. 🎸
+        </h1>
+
+        <p class="muted">
+            No PC usa as keybinds. No telemóvel usa os botões.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="row">
+
+            <label>
+                🎵 Música:
+                <select id="songSelect"></select>
+            </label>
+
+            <label>
+                🐢 Velocidade:
+                <input
+                    id="speed"
+                    type="range"
+                    min="50"
+                    max="150"
+                    value="100"
+                >
+            </label>
+
+            <strong id="speedLabel">
+                100%
+            </strong>
+
+            <button class="control" onclick="playTutorial()">
+                ▶️ Tutorial
+            </button>
+
+            <button class="control" onclick="stopTutorial()">
+                ⏹️ Parar
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="guitar">
+
+        <h2>🎸 Guitarra</h2>
+
+        <p class="muted">
+            Pressiona as teclas ou toca nas cordas.
+        </p>
+
+        <div id="neck" class="neck"></div>
+
+        <div id="keys" class="keys"></div>
+
+        <div id="mobileButtons" class="mobile-buttons"></div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🎵 Tutorial atual</h2>
+
+        <p id="songInfo" class="muted"></p>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🎼 Biblioteca</h2>
+
+        <div id="songList"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TUTORIAIS ================= -->
+
+<section id="tutorials" class="page">
+
+    <div class="hero">
+
+        <div class="muted">
+            APRENDE A TOCAR
+        </div>
+
+        <h1>
+            Tutoriais 📖
+        </h1>
+
+        <p class="muted">
+            Escolhe uma música e segue a sequência de teclas.
+        </p>
+
+    </div>
+
+
+    <div id="tutorialGrid" class="tutorial-grid"></div>
+
+
+    <div class="card">
+
+        <h2>⌨️ Como funcionam as teclas?</h2>
+
+        <p>
+            Cada tecla representa uma nota da guitarra virtual.
+            Quando uma tecla fica iluminada, é a próxima nota do tutorial.
+        </p>
+
+        <div class="sequence">
+            A → W → S → E → D → F
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>🐢 Alterar velocidade</h2>
+
+        <p>
+            Durante um tutorial podes alterar a velocidade.
+        </p>
+
+        <ul>
+            <li>50% = muito lento</li>
+            <li>75% = lento</li>
+            <li>100% = normal</li>
+            <li>125% = rápido</li>
+            <li>150% = muito rápido</li>
+        </ul>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>📤 Como postar um tutorial</h2>
+
+        <ol>
+            <li>Vai a <b>📤 Criar</b>.</li>
+            <li>Escreve o nome da música.</li>
+            <li>Coloca a sequência de teclas.</li>
+            <li>Define o BPM.</li>
+            <li>Adiciona uma descrição.</li>
+            <li>Testa a sequência.</li>
+            <li>Carrega em <b>Publicar</b>.</li>
+        </ol>
+
+        <p class="muted">
+            Nesta versão, os tutoriais ficam guardados no navegador
+            através do armazenamento local.
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CRIAR ================= -->
+
+<section id="create" class="page">
+
+    <div class="hero">
+
+        <div class="muted">
+            CRIADOR DE TUTORIAIS
+        </div>
+
+        <h1>
+            Cria uma música. 📤
+        </h1>
+
+        <p class="muted">
+            Adiciona uma sequência que tenhas autorização para publicar.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <label>
+            🎵 Nome da música
+        </label>
+
+        <br><br>
+
+        <input
+            id="newName"
+            type="text"
+            placeholder="Nome da música"
+            style="width:100%"
+        >
+
+        <br><br>
+
+        <label>
+            ⌨️ Sequência de teclas
+        </label>
+
+        <br><br>
+
+        <textarea
+            id="newSequence"
+            placeholder="Exemplo: A A D F F D S A"
+        ></textarea>
+
+        <br><br>
+
+        <label>
+            🥁 BPM
+        </label>
+
+        <br><br>
+
+        <input
+            id="newBpm"
+            type="number"
+            value="100"
+            min="30"
+            max="250"
+        >
+
+        <br><br>
+
+        <label>
+            📝 Descrição
+        </label>
+
+        <br><br>
+
+        <textarea
+            id="newDescription"
+            placeholder="Explica como tocar..."
+        ></textarea>
+
+        <br><br>
+
+        <div class="row">
+
+            <button
+                class="control"
+                onclick="testNewTutorial()"
+            >
+                ▶️ Testar
+            </button>
+
+            <button
+                class="control"
+                onclick="publishTutorial()"
+            >
+                📤 Publicar tutorial
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DEFINIÇÕES ================= -->
+
+<section id="settings" class="page">
+
+    <div class="hero">
+
+        <div class="muted">
+            DEFINIÇÕES
+        </div>
+
+        <h1>
+            Keybinds ⚙️
+        </h1>
+
+        <p class="muted">
+            Personaliza as teclas da guitarra.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div id="keybindList" class="keybind-list"></div>
+
+        <br>
+
+        <button class="control" onclick="resetKeybinds()">
+            🔄 Restaurar
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PUBLICAR ================= -->
+
+<section id="publish" class="page">
+
+    <div class="hero">
+
+        <div class="muted">
+            COLOCAR ONLINE
+        </div>
+
+        <h1>
+            Publica o GuitarWeb. 🌐
+        </h1>
+
+        <p class="muted">
+            O site funciona como um ficheiro HTML único.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>1️⃣ Guarda o ficheiro</h2>
+
+        <p>
+            Cria um ficheiro chamado:
+        </p>
+
+        <div class="sequence">
+            index.html
+        </div>
+
+        <p>
+            Cola o código do site dentro dele.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>2️⃣ Testa no computador</h2>
+
+        <p>
+            Abre o <b>index.html</b> no Chrome ou Edge.
+        </p>
+
+        <p class="muted">
+            Não precisas de instalar um servidor para testar
+            esta versão.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>3️⃣ Publica</h2>
+
+        <p>
+            Podes colocar o ficheiro num serviço de hospedagem
+            estática, como GitHub Pages ou Netlify.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>⚠️ Sobre os tutoriais da comunidade</h2>
+
+        <p>
+            Nesta versão, os tutoriais criados são guardados apenas
+            no navegador da pessoa. Para que todos os utilizadores
+            consigam ver os mesmos tutoriais, seria necessário ligar
+            o site a uma base de dados e a um backend.
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<script>
+
+/* =====================================================
+   CONFIGURAÇÃO
+===================================================== */
+
+const defaultKeybinds = [
+    "A",
+    "W",
+    "S",
+    "E",
+    "D",
+    "F"
+];
+
+let keybinds =
+    JSON.parse(localStorage.getItem("guitar_keybinds"))
+    || [...defaultKeybinds];
+
+
+/* =====================================================
+   MÚSICAS
+===================================================== */
+
+let songs = [
+
+    {
+        name: "Twinkle Twinkle Little Star",
+        bpm: 90,
+        sequence: [
+            "A","A","F","F",
+            "D","D","F","E",
+            "E","W","W","A"
+        ],
+        description: "Tutorial de demonstração."
+    },
+
+    {
+        name: "Ode to Joy",
+        bpm: 100,
+        sequence: [
+            "D","D","E","F",
+            "F","E","D","S",
+            "A","A","S","D"
+        ],
+        description: "Tutorial de demonstração."
+    },
+
+    {
+        name: "Blues Walk",
+        bpm: 80,
+        sequence: [
+            "A","D","F","D",
+            "A","S","D","F",
+            "E","D","S","A"
+        ],
+        description: "Exercício blues."
+    },
+
+    {
+        name: "Jane",
+        bpm: 90,
+        sequence: null,
+        description:
+            "Tutorial não incluído automaticamente porque a sequência exata de uma música protegida por direitos de autor não pode ser fornecida aqui."
+    }
+
+];
+
+
+/* =====================================================
+   ÁUDIO
+===================================================== */
+
+let audioContext = null;
+
+const frequencies = [
+    261.63,
+    293.66,
+    329.63,
+    349.23,
+    392.00,
+    440.00
+];
+
+
+function startAudio() {
+
+    if (!audioContext) {
+
+        audioContext =
+            new (
+                window.AudioContext ||
+                window.webkitAudioContext
+            )();
+
+    }
+
+    if (audioContext.state === "suspended") {
+        audioContext.resume();
+    }
+
+}
+
+
+function playNote(index) {
+
+    startAudio();
+
+    const oscillator =
+        audioContext.createOscillator();
+
+    const gain =
+        audioContext.createGain();
+
+    oscillator.type = "triangle";
+
+    oscillator.frequency.value =
+        frequencies[index];
+
+    gain.gain.setValueAtTime(
+        0.0001,
+        audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.3,
+        audioContext.currentTime + 0.01
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        audioContext.currentTime + 0.8
+    );
+
+    oscillator
+        .connect(gain)
+        .connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+        audioContext.currentTime + 0.82
+    );
+
+}
+
+
+/* =====================================================
+   GUITARRA
+===================================================== */
+
+function createGuitar() {
+
+    const neck =
+        document.getElementById("neck");
+
+    const keys =
+        document.getElementById("keys");
+
+    const mobile =
+        document.getElementById("mobileButtons");
+
+    neck.innerHTML = "";
+    keys.innerHTML = "";
+    mobile.innerHTML = "";
+
+    keybinds.forEach((key, index) => {
+
+        const string =
+            document.createElement("div");
+
+        string.className = "string";
+
+        const button =
+            document.createElement("button");
+
+        button.className = "string-label";
+
+        button.textContent = key;
+
+        button.onclick =
+            () => pressKey(key);
+
+        string.appendChild(button);
+
+        neck.appendChild(string);
+
+
+        const keyButton =
+            document.createElement("div");
+
+        keyButton.className = "key";
+
+        keyButton.id =
+            "visual-" + key;
+
+        keyButton.innerHTML =
+            key +
+            "<br><small>corda " +
+            (index + 1) +
+            "</small>";
+
+        keys.appendChild(keyButton);
+
+
+        const mobileButton =
+            document.createElement("button");
+
+        mobileButton.textContent = key;
+
+        mobileButton.onclick =
+            () => pressKey(key);
+
+        mobile.appendChild(mobileButton);
+
+    });
+
+}
+
+
+function pressKey(key) {
+
+    const index =
+        keybinds.indexOf(key);
+
+    if (index === -1) return;
+
+    playNote(index);
+
+    const visual =
+        document.getElementById(
+            "visual-" + key
+        );
+
+    if (visual) {
+
+        visual.classList.add("active");
+
+        setTimeout(() => {
+
+            visual.classList.remove("active");
+
+        }, 120);
+
+    }
+
+}
+
+
+/* =====================================================
+   TECLADO
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    event => {
+
+        if (event.repeat) return;
+
+        const pressed =
+            event.key.toUpperCase();
+
+        if (keybinds.includes(pressed)) {
+
+            pressKey(pressed);
+
+        }
+
+    }
+);
+
+
+/* =====================================================
+   PÁGINAS
+===================================================== */
+
+function showPage(page) {
+
+    document
+        .querySelectorAll(".page")
+        .forEach(element => {
+
+            element.classList.remove("active");
+
+        });
+
+    document
+        .getElementById(page)
+        .classList.add("active");
+
+}
+
+
+/* =====================================================
+   VELOCIDADE
+===================================================== */
+
+const speed =
+    document.getElementById("speed");
+
+const speedLabel =
+    document.getElementById("speedLabel");
+
+speed.addEventListener(
+    "input",
+    () => {
+
+        speedLabel.textContent =
+            speed.value + "%";
+
+    }
+);
+
+
+/* =====================================================
+   BIBLIOTECA
+===================================================== */
+
+function loadSongs() {
+
+    const select =
+        document.getElementById("songSelect");
+
+    const list =
+        document.getElementById("songList");
+
+    const tutorials =
+        document.getElementById("tutorialGrid");
+
+    select.innerHTML = "";
+    list.innerHTML = "";
+    tutorials.innerHTML = "";
+
+
+    songs.forEach((song, index) => {
+
+        const option =
+            document.createElement("option");
+
+        option.value = index;
+
+        option.textContent =
+            song.name;
+
+        select.appendChild(option);
+
+
+        const item =
+            document.createElement("div");
+
+        item.className = "song";
+
+        item.innerHTML = `
+
+            <div>
+
+                <div class="song-name">
+                    🎵 ${song.name}
+                </div>
+
+                <div class="muted">
+                    ${song.bpm} BPM
+                </div>
+
+            </div>
+
+            <button class="control">
+                Abrir
+            </button>
+
+        `;
+
+        item
+            .querySelector("button")
+            .onclick = () => {
+
+                select.value = index;
+
+                loadSong();
+
+                showPage("play");
+
+            };
+
+        list.appendChild(item);
+
+
+        const tutorial =
+            document.createElement("div");
+
+        tutorial.className = "tutorial";
+
+        tutorial.innerHTML = `
+
+            <h2>
+                🎵 ${song.name}
+            </h2>
+
+            <p class="muted">
+                ${song.description}
+            </p>
+
+            ${
+                song.sequence
+                ?
+                `
+                <div class="sequence">
+                    ${song.sequence.join(" · ")}
+                </div>
+                `
+                :
+                `
+                <div class="sequence">
+                    Tutorial não disponível
+                </div>
+                `
+            }
+
+            <br>
+
+            <button class="control">
+                🎸 Abrir
+            </button>
+
+        `;
+
+        tutorial
+            .querySelector("button")
+            .onclick = () => {
+
+                select.value = index;
+
+                loadSong();
+
+                showPage("play");
+
+            };
+
+        tutorials.appendChild(tutorial);
+
+    });
+
+}
+
+
+function loadSong() {
+
+    const index =
+        Number(
+            document.getElementById(
+                "songSelect"
+            ).value
+        );
+
+    const song =
+        songs[index];
+
+    const info =
+        document.getElementById(
+            "songInfo"
+        );
+
+    if (!song.sequence) {
+
+        info.textContent =
+            song.description;
+
+    } else {
+
+        info.textContent =
+            "Sequência: " +
+            song.sequence.join(" · ") +
+            " • " +
+            song.bpm +
+            " BPM";
+
+    }
+
+}
+
+
+/* =====================================================
+   REPRODUÇÃO
+===================================================== */
+
+let playing = false;
+let timer = null;
+let currentPosition = 0;
+
+
+function playTutorial() {
+
+    stopTutorial();
+
+    const index =
+        Number(
+            document.getElementById(
+                "songSelect"
+            ).value
+        );
+
+    const song =
+        songs[index];
+
+    if (!song.sequence) {
+
+        alert(
+            song.description
+        );
+
+        return;
+
+    }
+
+    playing = true;
+
+    currentPosition = 0;
+
+    playNext(song);
+
+}
+
+
+function playNext(song) {
+
+    if (!playing) return;
+
+    if (
+        currentPosition >=
+        song.sequence.length
+    ) {
+
+        playing = false;
+
+        document
+            .getElementById(
+                "progressBar"
+            )
+            .style.width = "100%";
+
+        return;
+
+    }
+
+
+    const key =
+        song.sequence[currentPosition];
+
+    pressKey(key);
+
+
+    const progress =
+        (
+            currentPosition /
+            song.sequence.length
+        ) * 100;
+
+
+    document
+        .getElementById(
+            "progressBar"
+        )
+        .style.width =
+            progress + "%";
+
+
+    currentPosition++;
+
+
+    const baseDelay =
+        60000 / song.bpm;
+
+    const multiplier =
+        Number(speed.value) / 100;
+
+    const delay =
+        baseDelay / multiplier;
+
+
+    timer =
+        setTimeout(
+            () => playNext(song),
+            delay
+        );
+
+}
+
+
+function stopTutorial() {
+
+    playing = false;
+
+    clearTimeout(timer);
+
+}
+
+
+/* =====================================================
+   CRIAR TUTORIAL
+===================================================== */
+
+function parseSequence(text) {
+
+    return text
+        .toUpperCase()
+        .replace(/[^A-Z\s]/g, "")
+        .split(/\s+/)
+        .filter(Boolean)
+        .filter(key =>
+            keybinds.includes(key)
+        );
+
+}
+
+
+function publishTutorial() {
+
+    const name =
+        document
+            .getElementById("newName")
+            .value
+            .trim();
+
+    const sequence =
+        parseSequence(
+            document
+                .getElementById("newSequence")
+                .value
+        );
+
+    const bpm =
+        Number(
+            document
+                .getElementById("newBpm")
+                .value
+        );
+
+    const description =
+        document
+            .getElementById("newDescription")
+            .value
+            .trim();
+
+
+    if (!name) {
+
+        alert(
+            "Escreve o nome da música."
+        );
+
+        return;
+
+    }
+
+
+    if (!sequence.length) {
+
+        alert(
+            "Adiciona uma sequência válida."
+        );
+
+        return;
+
+    }
+
+
+    const newSong = {
+
+        name,
+
+        bpm:
+            bpm || 100,
+
+        sequence,
+
+        description:
+            description ||
+            "Tutorial criado pela comunidade."
+
+    };
+
+
+    songs.push(newSong);
+
+
+    localStorage.setItem(
+        "guitar_songs",
+        JSON.stringify(songs)
+    );
+
+
+    loadSongs();
+
+    document.getElementById(
+        "songSelect"
+    ).value =
+        songs.length - 1;
+
+
+    loadSong();
+
+
+    alert(
+        "🎸 Tutorial publicado!"
+    );
+
+
+    showPage("tutorials");
+
+}
+
+
+/* =====================================================
+   TESTAR TUTORIAL
+===================================================== */
+
+function testNewTutorial() {
+
+    const sequence =
+        parseSequence(
+            document
+                .getElementById(
+                    "newSequence"
+                )
+                .value
+        );
+
+
+    if (!sequence.length) {
+
+        alert(
+            "Adiciona primeiro uma sequência."
+        );
+
+        return;
+
+    }
+
+
+    stopTutorial();
+
+    let i = 0;
+
+    function next() {
+
+        if (i >= sequence.length)
+            return;
+
+        pressKey(sequence[i]);
+
+        i++;
+
+        setTimeout(
+            next,
+            600
+        );
+
+    }
+
+    next();
+
+}
+
+
+/* =====================================================
+   KEYBINDS
+===================================================== */
+
+function createKeybindSettings() {
+
+    const container =
+        document.getElementById(
+            "keybindList"
+        );
+
+    container.innerHTML = "";
+
+
+    keybinds.forEach(
+        (key, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "keybind-item";
+
+
+            item.innerHTML = `
+
+                <span>
+                    🎸 Corda ${index + 1}
+                </span>
+
+                <button
+                    class="control"
+                    onclick="changeKeybind(${index})"
+                >
+                    ${key}
+                </button>
+
+            `;
+
+
+            container.appendChild(item);
+
+        }
+    );
+
+}
+
+
+function changeKeybind(index) {
+
+    const newKey =
+        prompt(
+            "Nova tecla para a corda " +
+            (index + 1)
+        );
+
+
+    if (!newKey) return;
+
+
+    const key =
+        newKey
+            .trim()
+            .charAt(0)
+            .toUpperCase();
+
+
+    if (!/^[A-Z0-9]$/.test(key)) {
+
+        alert(
+            "Usa uma letra ou número."
+        );
+
+        return;
+
+    }
+
+
+    if (keybinds.includes(key)) {
+
+        alert(
+            "Essa tecla já está a ser usada."
+        );
+
+        return;
+
+    }
+
+
+    keybinds[index] = key;
+
+
+    localStorage.setItem(
+        "guitar_keybinds",
+        JSON.stringify(keybinds)
+    );
+
+
+    createGuitar();
+
+    createKeybindSettings();
+
+}
+
+
+function resetKeybinds() {
+
+    keybinds =
+        [...defaultKeybinds];
+
+
+    localStorage.setItem(
+        "guitar_keybinds",
+        JSON.stringify(keybinds)
+    );
+
+
+    createGuitar();
+
+    createKeybindSettings();
+
+}
+
+
+/* =====================================================
+   DADOS GUARDADOS
+===================================================== */
+
+const savedSongs =
+    localStorage.getItem(
+        "guitar_songs"
+    );
+
+
+if (savedSongs) {
+
+    try {
+
+        const customSongs =
+            JSON.parse(savedSongs);
+
+        songs.push(
+            ...customSongs.filter(
+                custom =>
+                    !songs.some(
+                        song =>
+                            song.name ===
+                            custom.name
+                    )
+            )
+        );
+
+    } catch {
+
+        console.log(
+            "Não foi possível carregar os tutoriais guardados."
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   INICIALIZAÇÃO
+===================================================== */
+
+createGuitar();
+
+createKeybindSettings();
+
+loadSongs();
+
+document
+    .getElementById("songSelect")
+    .addEventListener(
+        "change",
+        loadSong
+    );
+
+loadSong();
+
+</script>
+
+</body>
+</html>
